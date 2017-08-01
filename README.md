@@ -35,9 +35,9 @@ The script can accept different runtime parameters:
 * ``-t``: The table you wish to UNLOAD
 * ``-f``: The S3 key at which the file will be placed
 * ``-s`` (Optional): The file you wish to read a custom valid SQL WHERE clause from. This will be sanitized then inserted into the UNLOAD command.
-* ``-d`` (Optional): The date column you wish to use to constrain the results  
-* ``-d1`` (Optional): The desired start date to constrain the result set
-* ``-d2`` (Optional): The desired end date to constrain the result set  
+* ``-r`` (Optional): The range column you wish to use to constrain the results. Any type supported by Redshift's [BETWEEN function](http://docs.aws.amazon.com/redshift/latest/dg/r_range_condition.html) is accepted here (date, integer, etc.)
+* ``-r1`` (Optional): The desired start range to constrain the result set
+* ``-r2`` (Optional): The desired end range to constrain the result set  
 Note:  ``-s`` and ``-d`` are mutually exlusive and cannot be used together. If neither is used, the script will default to not specifying a WHERE clause and output the entire table.
 
 ## Examples
