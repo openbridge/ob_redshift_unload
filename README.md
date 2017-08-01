@@ -1,5 +1,7 @@
-# Redshift Unload
-This script is meant to simplify running a [Redshift `UNLOAD` command](http://docs.aws.amazon.com/redshift/latest/dg/r_UNLOAD.html). One of the gaps with the `UNLOAD` command is the fact it will not output a header row to the `UNLOADED` data. This script automatically retrieves and adds headers to the file before output all from the convenience of a simple Dcoker container.
+# Redshift Extracts
+This script is meant to simplify creating extracts from Redshift by running a pre-pakcaged [`UNLOAD` command](http://docs.aws.amazon.com/redshift/latest/dg/r_UNLOAD.html). It also solves a big gap with the `UNLOAD` command: it will not output a header row. Not cool!
+
+This script automatically retrieves and adds headers to the file before output all from the convenience of a simple Dcoker container. A future update will also perform an audits to ensure the extracts match the runtime parameters.
 
 ## Requirements
 Everything is built into the container, including [`psycopg2`](http://initd.org/psycopg/docs/install.html) and other OS and Python packages. You will need to have connection details to your Redshift host and the AWS credentials to write the `UNLOADED` data to an S3 bucket.
