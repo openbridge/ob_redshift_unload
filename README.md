@@ -68,7 +68,7 @@ Note:  ``-s`` and ``-d`` are mutually exlusive and cannot be used together. If n
 ### The `-s` Option
 As mentioned previously, it is possible to supply your own WHERE clause to be used in the UNLOAD command. This is done via an external SQL file.
 
-Here is an example. To use this functionality to UNLOAD only new users, you createD a SQL file called `new-users.sql` that contains ``WHERE is_new = true``. Pretty simple.
+Here is an example. To use this functionality to UNLOAD only new users, you create a SQL file called `new-users.sql` that contains ``WHERE is_new = true``. Pretty simple.
 
 ```python
 python unload.py -t mytable -f s3://dest-bucket/foo/bar/output_file.csv -r datecol -r1 2017-01-01 -r2 2017-06-01 -s /new-users.sql
