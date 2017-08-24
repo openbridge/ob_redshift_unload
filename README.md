@@ -41,7 +41,7 @@ A sample configuration file is below.
 ```
 
 ## Running An Extract
-This command will unload the data in the table ``mytable`` which the ``datecol`` is between to the specified S3 location.
+This command will unload the data in the table ``mytable`` using ``datecol`` for the period to a specified S3 location.
 
 One import note is that you need to pass the configuration file into the container. This is done via the volume `-v` command. You basically put your local path to the file `/local/path/to/my/config.json` and then map it to the root of the container like this `/config.json`. It should look something like this `-v /local/path/to/my/config.json:/config.json`.
 
