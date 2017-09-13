@@ -1,13 +1,13 @@
 # Redshift Extracts (UNLOAD with Headers)
-This script is meant to simplify creating extracts from Redshift by running a pre-pakcaged [`UNLOAD` command](http://docs.aws.amazon.com/redshift/latest/dg/r_UNLOAD.html). It also solves a big gap with the `UNLOAD` command: it will not output a header row. Not cool!
+This script is meant to simplify creating extracts from Redshift by running a pre-packaged [`UNLOAD` command](http://docs.aws.amazon.com/redshift/latest/dg/r_UNLOAD.html). It also solves a big gap with the `UNLOAD` command: it will not output a header row. Not cool!
 
-This script automatically retrieves and adds headers to the file before output all from the convenience of a simple Dcoker container. A future update will also perform an audits to ensure the extracts match the runtime parameters.
+This script automatically retrieves and adds headers to the file before output, all from the convenience of a simple Docker container. A future update will also perform an audit to ensure the extracts match the runtime parameters.
 
 ## Requirements
 Everything is built into the container, including [`psycopg2`](http://initd.org/psycopg/docs/install.html) and other OS and Python packages. You will need to have connection details to your Redshift host and the AWS credentials to write the `UNLOADED` data to an S3 bucket.
 
 ## Installing
-To get the image you need to have Docker installed. Once installed you can get the image by pulling from [`Docker Hub`](https://hub.docker.com/r/openbridge/ob_redshift_unload/)
+To get the image, you need to have Docker installed. Once installed, you can get the image by pulling from [`Docker Hub`](https://hub.docker.com/r/openbridge/ob_redshift_unload/)
 ```
 docker pull openbridge/ob_redshift_unload
 ```
@@ -43,7 +43,7 @@ A sample configuration file is below.
 ## Running An Extract
 This command will unload the data in the table ``mytable`` using ``datecol`` for the period to a specified S3 location.
 
-One import note is that you need to pass the configuration file into the container. This is done via the volume `-v` command. You basically put your local path to the file `/local/path/to/my/config.json` and then map it to the root of the container like this `/config.json`. It should look something like this `-v /local/path/to/my/config.json:/config.json`.
+One important note is that you need to pass the configuration file into the container. This is done via the volume `-v` command. You basically put your local path to the file `/local/path/to/my/config.json` and then map it to the root of the container like this `/config.json`. It should look something like this `-v /local/path/to/my/config.json:/config.json`.
 
 Running it via Docker command:
 ```python
@@ -74,7 +74,7 @@ Here is an example. To use this functionality to UNLOAD only new users, you crea
 python unload.py -t mytable -f s3://dest-bucket/foo/bar/output_file.csv -r datecol -r1 2017-01-01 -r2 2017-06-01 -s /new-users.sql
 ```
 
-**NOTE**: The -s option will **only** work for the `WHERE` clause. If toy try other clauses it will fail. The script would need to be ehanced to do more.
+**NOTE**: The -s option will **only** work for the `WHERE` clause. If you try other clauses it will fail. The script would need to be enhanced to do more.
 
 
 ## Security
