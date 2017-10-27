@@ -12,13 +12,16 @@ import argparse
 def _simple_sanitize(s):
     return s.split(';')[0]
 
-def run(config, tablename, file_path, sql_file=None, range_col=None, range_start=None, range_end=None):
+def run(config, tablename, file_path, schema_name=None, sql_file=None, range_col=None, range_start=None, range_end=None):
     if not file_path:
         file_path = tablename
     conn = psycopg2.connect(**config['db'])
     unload_options = '\n'.join(config.get('unload_options', []))
     cursor = conn.cursor()
-    query = "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '{}' ORDER BY ordinal_position".format(tablename)
+    if schema_name:
+        query = "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '{}' AND table_schema = '{}' ORDER BY ordinal_position".format(tablename, schema_name)
+    else:
+        query = "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '{}' ORDER BY ordinal_position".format(tablename)
     cursor.execute(query)
     res = cursor.fetchall()
 
@@ -48,11 +51,11 @@ def run(config, tablename, file_path, sql_file=None, range_col=None, range_start
         SELECT 1 as rn, {1} 
         UNION ALL
         (SELECT 2 as rn, {2} 
-        FROM {3} {4})) ORDER BY rn\')  
-    TO \'{7}\'
-    CREDENTIALS 'aws_access_key_id={5};aws_secret_access_key={6}'
-    {8}
-    """.format(column_str, header_str, cast_columns_str, tablename, 
+        FROM {3}{4} {5})) ORDER BY rn\')  
+    TO \'{8}\'
+    CREDENTIALS 'aws_access_key_id={6};aws_secret_access_key={7}'
+    {9}
+    """.format(column_str, header_str, cast_columns_str, '{}.'.format(schema_name) if schema_name else '', tablename, 
                where_clause, config['aws_access_key_id'], 
                config['aws_secret_access_key'], file_path, unload_options)
     print "The following UNLOAD query is being run: \n" + query    
@@ -66,6 +69,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-t', help='Table name')
+    parser.add_argument('-c', help='Schema name')
     parser.add_argument('-f', help='Desired S3 file path')
     parser.add_argument('-s', help='SQL WHERE clause')
     parser.add_argument('-r', help='Range column')
@@ -81,4 +85,4 @@ if __name__ == '__main__':
             args[k] = _simple_sanitize(v)
         else:
             args[k] = None
-    run(config, args['t'], args['f'], args['s'], args['r'], args['r1'], args['r2'])
+    run(config, args['t'], args['f'], args['c'], args['s'], args['r'], args['r1'], args['r2'])
