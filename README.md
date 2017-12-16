@@ -1,5 +1,5 @@
 # Redshift Extracts (UNLOAD with Headers)
-This script is meant to simplify creating extracts from Redshift by running a pre-packaged [`UNLOAD` command](http://docs.aws.amazon.com/redshift/latest/dg/r_UNLOAD.html). It also solves a big gap with the `UNLOAD` command: it will not output a header row. Not cool!
+This script is meant to simplify creating extracts from <a href="https://openbridge.com/warehouse/amazon-redshift" target="_blank">Redshift</a> by running a pre-packaged [`UNLOAD` command](http://docs.aws.amazon.com/redshift/latest/dg/r_UNLOAD.html). It also solves a big gap with the `UNLOAD` command: it will not output a header row. Not cool!
 
 This script automatically retrieves and adds headers to the file before output, all from the convenience of a simple Docker container. A future update will also perform an audit to ensure the extracts match the runtime parameters.
 
