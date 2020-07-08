@@ -1,0 +1,19 @@
+{
+    "db": {
+        "host": "redshift.myhost.com",
+        "port": "5439",
+        "database": "mydb",
+        "user": "user",
+        "password": "password123456789"
+    },
+    "aws_access_key_id": "123131231231232131",
+    "aws_secret_access_key": "123123131313131232131",
+    "unload_options": [
+    	"ADDQUOTES",
+    	"PARALLEL OFF",
+    	"ALLOWOVERWRITE",
+    	"GZIP",
+    	"DELIMITER ','"
+    ],
+    "date_column": "date_col"
+}
